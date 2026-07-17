@@ -1,66 +1,74 @@
-# Ustaad360: System Architecture & Design Documentation
+# Ustaad360 – Full-Stack Service Marketplace
+### System Architecture & Design Documentation
 
-> **Note:** This repository serves as the official architectural documentation and system design reference for the Ustaad360 platform. The proprietary application source code remains private to protect intellectual property and business logic. This document highlights the distributed systems patterns, architectural decisions, and engineering rigor applied to the project.
-
-A cloud-native backend platform for a trust-aware technician marketplace, built with ASP.NET Core, Clean Architecture, and modern backend engineering practices.
+> **Note**
+> This repository serves as the official architectural documentation and system design reference for **Ustaad360**, my undergraduate capstone project. The complete application source code remains private to protect intellectual property and business logic. This repository showcases the system architecture, design decisions, technology stack, and software engineering practices behind the project.
 
 ---
+
 ![.NET](https://img.shields.io/badge/.NET-9.0-purple)
 ![ASP.NET Core](https://img.shields.io/badge/ASP.NET-Core-blue)
+![React](https://img.shields.io/badge/React-19-61DAFB)
 ![SQL Server](https://img.shields.io/badge/Database-SQL%20Server-red)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 ## Overview
 
-Ustaad360 is my undergraduate capstone project, developed as part of my Bachelor of Science in Computer Science. The platform connects customers with verified technicians for home and business services, addressing one of the biggest challenges in local service marketplaces: **trust**.
+**Ustaad360** is a full-stack cloud-native service marketplace developed as my undergraduate capstone project for the Bachelor of Science in Computer Science.
 
-Instead of focusing solely on basic booking functionality, the system was designed around dependable, fault-tolerant workflows, including secure authentication, role-based authorization, escrow-oriented payment processing, real-time communication, and transparent dispute handling.
+The platform connects customers with verified technicians for home and business services while addressing one of the most significant challenges in service marketplaces: **trust**.
 
-Developing Ustaad360 directly motivated my research interests in:
+Rather than focusing only on service booking, Ustaad360 was designed around dependable software engineering principles, incorporating secure authentication, role-based authorization, escrow-oriented payment workflows, real-time communication, transparent dispute management, and a scalable Clean Architecture suitable for modern cloud-native applications.
+
+Developing Ustaad360 strengthened my interest in advanced software systems and directly inspired my research interests in:
+
 - Dependable Distributed Systems
-- Cloud-Native Computing & Microservices
+- Cloud-Native Computing
+- Microservices Architecture
 - Fault-Tolerant Software Systems
 - AI for Systems (AI4Systems)
-- Trust Management in Digital Platforms
+- Trust Management in Distributed Platforms
 
-These interests form the basis of my graduate school applications to the **Institute of Science Tokyo (Japan)** and **KAIST (South Korea)**.
+These research interests form the foundation of my graduate studies and research proposals for the **Institute of Science Tokyo (Japan)** and **KAIST – Kim Jaechul Graduate School of AI (South Korea)**.
 
 ---
 
-### System Architecture
+## System Architecture
 
-The backend strictly follows **Clean Architecture**, separating business rules from infrastructure concerns to improve maintainability, scalability, and testability.
+The platform follows **Clean Architecture**, separating business logic from infrastructure and presentation layers to maximize maintainability, scalability, testability, and long-term extensibility.
 
 ```mermaid
 graph TD
     subgraph Presentation Layer
-        API[ASP.NET Core Web API / Controllers]
-        Hubs[SignalR Hubs]
+        API[ASP.NET Core Web API]
+        WEB[React Frontend]
+        HUB[SignalR Hubs]
     end
 
     subgraph Application Layer
-        CQRS[CQRS / MediatR Handlers]
-        Services[Business Logic & Guards]
+        APP[Application Services]
+        CQRS[CQRS / MediatR]
     end
 
     subgraph Domain Layer
-        Entities[Entities & Aggregates]
-        Rules[Strict State Machine & Business Rules]
+        DOMAIN[Domain Entities & Business Rules]
     end
 
     subgraph Infrastructure Layer
-        EF[Entity Framework Core / PostgreSQL]
-        Auth[JWT / RBAC / Refresh Tokens]
-        External[External Services / Webhooks]
+        DB[SQL Server / Entity Framework Core]
+        AUTH[JWT Authentication & RBAC]
+        EXT[External Services]
     end
 
-    API --> CQRS
-    Hubs --> Services
-    CQRS --> Entities
-    Services --> Entities
-    Entities --> EF
-    Services --> Auth
-    Services --> External
+    WEB --> API
+    API --> APP
+    HUB --> APP
+    APP --> CQRS
+    CQRS --> DOMAIN
+    DOMAIN --> DB
+    APP --> AUTH
+    APP --> EXT
+```
 
 ### Architecture Principles
 
