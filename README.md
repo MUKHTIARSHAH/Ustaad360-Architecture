@@ -9,44 +9,65 @@
 
 ---
 
+# Ustaad360: System Architecture & Design Documentation
+
+> **Note:** This repository serves as the official architectural documentation and system design reference for the Ustaad360 platform. The proprietary application source code remains private to protect intellectual property and business logic. This document highlights the distributed systems patterns, architectural decisions, and engineering rigor applied to the project.
+
+A cloud-native backend platform for a trust-aware technician marketplace, built with ASP.NET Core, Clean Architecture, and modern backend engineering practices.
+
+---
+
 ## Overview
 
-Ustaad360 is my undergraduate capstone project developed as part of my Bachelor of Science in Computer Science.
+Ustaad360 is my undergraduate capstone project, developed as part of my Bachelor of Science in Computer Science. The platform connects customers with verified technicians for home and business services, addressing one of the biggest challenges in local service marketplaces: **trust**.
 
-The platform connects customers with verified technicians for home and business services while addressing one of the biggest challenges in local service marketplaces—**trust**.
+Instead of focusing solely on basic booking functionality, the system was designed around dependable, fault-tolerant workflows, including secure authentication, role-based authorization, escrow-oriented payment processing, real-time communication, and transparent dispute handling.
 
-Instead of focusing solely on booking services, the system was designed around dependable workflows including secure authentication, role-based authorization, escrow-oriented payment processing, document verification, real-time communication, and transparent dispute handling.
-
-Developing Ustaad360 motivated my research interests in:
-
+Developing Ustaad360 directly motivated my research interests in:
 - Dependable Distributed Systems
-- Cloud-Native Computing
+- Cloud-Native Computing & Microservices
 - Fault-Tolerant Software Systems
 - AI for Systems (AI4Systems)
 - Trust Management in Digital Platforms
 
-These research interests form the basis of my graduate school applications to KAIST (South Korea) and the Institute of Science Tokyo (Japan).
+These interests form the basis of my graduate school applications to the **Institute of Science Tokyo (Japan)** and **KAIST (South Korea)**.
 
 ---
 
-# Architecture
+## System Architecture
 
-The backend follows **Clean Architecture**, separating business rules from infrastructure to improve maintainability, scalability, and testability.
+The backend strictly follows **Clean Architecture**, separating business rules from infrastructure concerns to improve maintainability, scalability, and testability.
 
-```
-Presentation Layer
-        │
-ASP.NET Core Web API
-        │
-Application Layer
-(Business Logic)
-        │
-Domain Layer
-(Entities & Rules)
-        │
-Infrastructure Layer
-(Database, Authentication, External Services)
-```
+```mermaid
+graph TD
+    subgraph Presentation Layer
+        API[ASP.NET Core Web API / Controllers]
+        Hubs[SignalR Hubs]
+    end
+
+    subgraph Application Layer
+        CQRS[CQRS / MediatR Handlers]
+        Services[Business Logic & Guards]
+    end
+
+    subgraph Domain Layer
+        Entities[Entities & Aggregates]
+        Rules[Strict State Machine & Business Rules]
+    end
+
+    subgraph Infrastructure Layer
+        EF[Entity Framework Core / PostgreSQL]
+        Auth[JWT / RBAC / Refresh Tokens]
+        External[External Services / Webhooks]
+    end
+
+    API --> CQRS
+    Hubs --> Services
+    CQRS --> Entities
+    Services --> Entities
+    Entities --> EF
+    Services --> Auth
+    Services --> External
 
 ### Architecture Principles
 
