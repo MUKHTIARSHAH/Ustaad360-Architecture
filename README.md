@@ -1,14 +1,3 @@
-# Ustaad360 Backend
-
-> A cloud-native backend platform for a trust-aware technician marketplace built with ASP.NET Core, Clean Architecture, and modern backend engineering practices.
-
-![.NET](https://img.shields.io/badge/.NET-9.0-purple)
-![ASP.NET Core](https://img.shields.io/badge/ASP.NET-Core-blue)
-![SQL Server](https://img.shields.io/badge/Database-SQL%20Server-red)
-![License](https://img.shields.io/badge/License-MIT-green)
-
----
-
 # Ustaad360: System Architecture & Design Documentation
 
 > **Note:** This repository serves as the official architectural documentation and system design reference for the Ustaad360 platform. The proprietary application source code remains private to protect intellectual property and business logic. This document highlights the distributed systems patterns, architectural decisions, and engineering rigor applied to the project.
@@ -16,6 +5,10 @@
 A cloud-native backend platform for a trust-aware technician marketplace, built with ASP.NET Core, Clean Architecture, and modern backend engineering practices.
 
 ---
+![.NET](https://img.shields.io/badge/.NET-9.0-purple)
+![ASP.NET Core](https://img.shields.io/badge/ASP.NET-Core-blue)
+![SQL Server](https://img.shields.io/badge/Database-SQL%20Server-red)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 ## Overview
 
@@ -34,7 +27,7 @@ These interests form the basis of my graduate school applications to the **Insti
 
 ---
 
-## System Architecture
+### System Architecture
 
 The backend strictly follows **Clean Architecture**, separating business rules from infrastructure concerns to improve maintainability, scalability, and testability.
 
