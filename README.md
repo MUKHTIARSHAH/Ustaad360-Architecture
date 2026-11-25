@@ -1,4 +1,4 @@
-# Ustaad360 – Full-Stack Service Marketplace
+# Ustaad360 | Full-Stack Service Marketplace
 ### System Architecture & Design Documentation
 
 > **Note**
@@ -9,16 +9,16 @@
 ![.NET](https://img.shields.io/badge/.NET-9.0-purple)
 ![ASP.NET Core](https://img.shields.io/badge/ASP.NET-Core-blue)
 ![React](https://img.shields.io/badge/React-19-61DAFB)
-![SQL Server](https://img.shields.io/badge/Database-SQL%20Server-red)
-![License](https://img.shields.io/badge/License-MIT-green)
+![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-336791)
+![React Native](https://img.shields.io/badge/Mobile-React%20Native-61DAFB)
 
 ## Overview
 
-**Ustaad360** is a full-stack cloud-native service marketplace developed as my undergraduate capstone project for the Bachelor of Science in Computer Science.
+**Ustaad360** is a full-stack service marketplace developed as my undergraduate capstone project for the Bachelor of Science in Computer Science.
 
 The platform connects customers with verified technicians for home and business services while addressing one of the most significant challenges in service marketplaces: **trust**.
 
-Rather than focusing only on service booking, Ustaad360 was designed around dependable software engineering principles, incorporating secure authentication, role-based authorization, escrow-oriented payment workflows, real-time communication, transparent dispute management, and a scalable Clean Architecture suitable for modern cloud-native applications.
+Rather than focusing only on service booking, Ustaad360 was designed around dependable software engineering principles, including secure authentication, role-based authorization, escrow-oriented payment workflows, real-time communication, transparent dispute management, and Clean Architecture intended to support maintainability and testability.
 
 Developing Ustaad360 strengthened my interest in advanced software systems and directly inspired my research interests in:
 
@@ -38,36 +38,41 @@ These research interests form the foundation of my graduate studies and research
 The platform follows **Clean Architecture**, separating business logic from infrastructure and presentation layers to maximize maintainability, scalability, testability, and long-term extensibility.
 
 ```mermaid
-graph TD
-    subgraph Presentation Layer
+flowchart LR
+    subgraph Clients
+        WEB[React Web App]
+        MOBILE[React Native App]
+    end
+
+    subgraph Presentation
         API[ASP.NET Core Web API]
-        WEB[React Frontend]
-        HUB[SignalR Hubs]
+        HUBS[SignalR Hubs]
     end
 
-    subgraph Application Layer
-        APP[Application Services]
-        CQRS[CQRS / MediatR]
+    subgraph Application
+        APP[Use Cases and Application Services]
     end
 
-    subgraph Domain Layer
-        DOMAIN[Domain Entities & Business Rules]
+    subgraph Domain
+        DOMAIN[Entities and Business Rules]
     end
 
-    subgraph Infrastructure Layer
-        DB[SQL Server / Entity Framework Core]
-        AUTH[JWT Authentication & RBAC]
+    subgraph Infrastructure
+        INFRA[Persistence and Integrations]
+        DB[(PostgreSQL)]
         EXT[External Services]
     end
 
     WEB --> API
+    MOBILE --> API
     API --> APP
-    HUB --> APP
-    APP --> CQRS
-    CQRS --> DOMAIN
-    DOMAIN --> DB
-    APP --> AUTH
-    APP --> EXT
+    API --> HUBS
+    HUBS --> APP
+    APP --> DOMAIN
+    INFRA --> APP
+    INFRA --> DOMAIN
+    INFRA --> DB
+    INFRA --> EXT
 ```
 
 ### Architecture Principles
@@ -81,18 +86,19 @@ graph TD
 
 ---
 
-# Technology Stack
+## Technology Stack
 
 ### Backend
 
 - ASP.NET Core Web API
 - C#
 - Entity Framework Core
-- SQL Server
+- PostgreSQL
 
 ### Frontend
 
 - React
+- React Native
 - TypeScript
 
 ### Authentication & Security
@@ -118,9 +124,9 @@ graph TD
 
 ---
 
-# Core Features
+## Core Features
 
-## Authentication
+### Authentication
 
 - User Registration
 - Login
@@ -131,7 +137,7 @@ graph TD
 
 ---
 
-## Role-Based Access
+### Role-Based Access
 
 - Customer
 - Technician
@@ -141,7 +147,7 @@ Each role has dedicated authorization policies and protected endpoints.
 
 ---
 
-## Technician Verification
+### Technician Verification
 
 Technicians can:
 
@@ -153,7 +159,7 @@ Administrators review and approve technician accounts before allowing service re
 
 ---
 
-## Service Marketplace
+### Service Marketplace
 
 Customers can:
 
@@ -172,7 +178,7 @@ Technicians can:
 
 ---
 
-## Trust-Oriented Design
+### Trust-Oriented Design
 
 The platform was designed around trust rather than simple booking functionality.
 
@@ -189,7 +195,7 @@ These ideas later motivated my graduate research interests in dependable distrib
 
 ---
 
-## Real-Time Features
+### Real-Time Features
 
 SignalR enables:
 
@@ -200,7 +206,7 @@ SignalR enables:
 
 ---
 
-## Administrative Dashboard
+### Administrative Dashboard
 
 Administrators can:
 
@@ -212,34 +218,19 @@ Administrators can:
 
 ---
 
-# Project Structure
+## Project Structure
 
 ```
 src/
-
-API/
-Presentation Layer
-
-Application/
-Business Logic
-CQRS
-Services
-
-Domain/
-Entities
-Interfaces
-Business Rules
-
-Infrastructure/
-Entity Framework Core
-Authentication
-Persistence
-External Services
+  Ustaad360.API/            REST API, SignalR hubs, middleware
+  Ustaad360.Application/    Use cases, DTOs, validation, contracts
+  Ustaad360.Domain/         Entities, domain events, business rules
+  Ustaad360.Infrastructure/ EF Core, PostgreSQL, external integrations
 ```
 
 ---
 
-# Skills Demonstrated
+## Engineering Practices
 
 This project demonstrates practical experience with:
 
@@ -248,17 +239,17 @@ This project demonstrates practical experience with:
 - Clean Architecture
 - Authentication & Authorization
 - Entity Framework Core
-- SQL Server
+- PostgreSQL
 - SignalR
 - Cloud-Native Development
 - Docker
 - Dependency Injection
 - Software Design Principles
-- Production API Development
+- API and integration testing
 
 ---
 
-# Research Motivation
+## Research Motivation
 
 Although Ustaad360 solves many trust-related challenges through authentication, authorization, and secure workflows, developing the platform exposed several research questions that cannot be addressed solely at the application layer.
 
@@ -281,28 +272,11 @@ These challenges inspired my proposed graduate research in:
 
 ---
 
-# Future Improvements
-
-Planned research-driven enhancements include:
-
-- AI-assisted anomaly detection
-- Distributed trust scoring
-- Kubernetes deployment
-- OpenTelemetry observability
-- Prometheus & Grafana monitoring
-- Redis caching
-- RabbitMQ event-driven messaging
-- Distributed tracing
-- Cloud-native scalability
-- Microservices architecture
-
----
-
-# About the Author
+## About the Author
 
 **Mukhtiar Shah**
 
-Backend Software Engineer | Distributed Systems & Cloud Computing Research Applicant
+Full-Stack Software Engineer | Backend Systems & Distributed Computing
 
 Research Interests:
 
@@ -321,9 +295,3 @@ https://linkedin.com/in/mukhtiar-shah-4567221aa
 
 Email:
 shahsaib256@gmail.com
-
----
-
-# License
-
-This project is released under the MIT License.
